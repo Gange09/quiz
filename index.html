@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .option-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80%;
+            font-size: 16px;
+        }
+        .option-btn:hover {
+            background-color: #45a049;
+        }
+        #result-container {
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+  #score {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Front-End Web Development Quiz</h1>
+        <div id="quiz-container">
+            <div id="question-container">
+                <p id="question">Question will appear here</p>
+            </div>
+            <div id="options-container">
+                <button class="option-btn" onclick="selectAnswer(0)">Option 1</button>
+                <button class="option-btn" onclick="selectAnswer(1)">Option 2</button>
+                <button class="option-btn" onclick="selectAnswer(2)">Option 3</button>
+                <button class="option-btn" onclick="selectAnswer(3)">Option 4</button>
+            </div>
+            <div id="result-container" class="hidden">
+               <b> <p id="result-text"></p></b>
+                <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+            </div>
+        </div>
+       <b> <p id="score">Score: 0</p></b>
+    </div>
+
+  <script>
+        const questions = [
+            {
+                question: "What does HTML stand for?",
+                options: ["HyperText Markup Language", "HyperText Modeling Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+                answer: 0
+            },
+            {
+                question: "Which HTML tag is used to define an internal style sheet?",
+                options: ["<css>", "<script>", "<style>", "<stylesheet>"],
+                answer: 2
+            },
+            {
+                question: "Which of the following is the correct syntax for linking an external CSS file?",
+                options: ["<link href='styles.css' rel='stylesheet'>", "<css href='styles.css'>", "<stylesheet src='styles.css'>", "<link src='styles.css'>"],
+                answer: 0
+            },
+            {
+                question: "What is the purpose of the <meta> tag in HTML?",
+                options: ["To include external CSS", "To define the character set", "To create a form", "To add links to other pages"],
+                answer: 1
+            },
+            {
+                question: "Which property is used to change the font size in CSS?",
+                options: ["font-size", "text-size", "font-style", "text-font"],
+                answer: 0
+            },
+            {
+                question: "What does CSS stand for?",
+                options: ["Creative Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets", "Computer Style Sheets"],
+                answer: 1
+            },
+            {
+                question: "Which CSS property controls the text color?",
+                options: ["font-color", "text-color", "color", "text-style"],
+                answer: 2
+            },
+            {
+                question: "Which HTML tag is used to define a hyperlink?",
+                options: ["<a>", "<link>", "<hyperlink>", "<url>"],
+                answer: 0
+            },
+            {
+                question: "What is the correct JavaScript syntax to change the content of the <p> element with id='demo'?",
+                options: ["document.getElementById('demo').innerHTML = 'Hello World';", "document.getElementById('demo').innerHTML = 'Hello World';", "document.getElementById('demo').innerText = 'Hello World';", "document.getElementById('demo').setText('Hello World');"],
+                answer: 0
+            },
+            {
+                question: "Which JavaScript function is used to open a new browser window?",
+                options: ["window.open()", "browser.open()", "open.window()", "new.window()"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionData = questions[currentQuestionIndex];
+            document.getElementById("question").textContent = questionData.question;
+            const options = document.querySelectorAll(".option-btn");
+            options.forEach((btn, index) => {
+                btn.textContent = questionData.options[index];
+            });
+            document.getElementById("result-container").classList.add("hidden");
+        }
+
+        function selectAnswer(optionIndex) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            const resultText = document.getElementById("result-text");
+
+            if (optionIndex === correctAnswer) {
+                score++;
+                resultText.textContent = "Correct!";
+            } else {
+                resultText.textContent = "Wrong Answer!";
+            }
+
+            document.getElementById("score").textContent = "Score: " + score;
+            document.getElementById("result-container").classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz-container").innerHTML = "<h2>Quiz Completed!</h2><p>Your final score is: " + score + "</p>";
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
